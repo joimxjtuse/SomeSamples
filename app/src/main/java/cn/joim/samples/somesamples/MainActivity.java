@@ -23,6 +23,10 @@ public class MainActivity extends AppCompatActivity {
 
     private MyAdapter myAdapter;
 
+    /**
+     * 参考了git@github.com:cundong/HeaderAndFooterRecyclerView.git作者的思路，但是感觉对于做UI的同学，需要对adapter主动进行封装才能
+     * 实现，这对写功能的人应该是不舒服的，如果可以向ListView思路一样，更少的学习成本也许更优雅一些，设计了这样一套可动态添加Header和Footer的RecyclerView.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
