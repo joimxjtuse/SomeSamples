@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,11 +54,12 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.addFooterView(footerView);
 
         myAdapter.notifyDataSetChanged();
+
     }
 
     private void writeListItems(@NonNull List<ListItem> list) {
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 10000; i++) {
 
             list.add(new ListItem("this is " + (i + 1) + " item,.", ""));
         }
@@ -73,15 +75,19 @@ public class MainActivity extends AppCompatActivity {
             lists = items;
         }
 
+        private int mCreateCount, mBindCount;
+
         @Override
         public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+            Log.i("joim", "onCreateViewHolder times:" + (++ mCreateCount));
 
             return new MyHolder(LayoutInflater.from(MainActivity.this).inflate(R.layout.item_list, parent, false));
         }
 
         @Override
         public void onBindViewHolder(MyHolder holder, int position) {
-
+            Log.i("joim", "onBindViewHolder times:" + (++ mBindCount));
             ListItem item = getItem(position);
             holder.mTextView.setText(item.getTitle());
 
