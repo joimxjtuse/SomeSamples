@@ -1,11 +1,3 @@
-/*
- * Copyright (c) 2018. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
- * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
- * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
- * Vestibulum commodo. Ut rhoncus gravida arcu.
- */
-
 package cn.joim.samples.headerandfooterrecyclerview;
 
 import android.support.annotation.NonNull;
@@ -23,7 +15,7 @@ class HeaderViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private static final int TYPE_HEADER_VIEW = Integer.MIN_VALUE;
 
-    private static final int TYPE_FOOTER_VIEW = Integer.MIN_VALUE + 1;
+    private static final int TYPE_FOOTER_VIEW = Integer.MIN_VALUE / 2;
 
     private static final int TYPE_NORMAL_VIEW = Integer.MAX_VALUE / 2;
 
@@ -112,10 +104,7 @@ class HeaderViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (position >= headerViewsCountCount && position < headerViewsCountCount + mRealAdapter.getItemCount()) {
             mRealAdapter.onBindViewHolder(holder, position - headerViewsCountCount);
         } else {
-            ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
-            if (layoutParams instanceof StaggeredGridLayoutManager.LayoutParams) {
-                ((StaggeredGridLayoutManager.LayoutParams) layoutParams).setFullSpan(true);
-            }
+            holder.setIsRecyclable(false);
         }
     }
 
@@ -134,17 +123,33 @@ class HeaderViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (position < headerViewsCountCount) {
 
             return TYPE_HEADER_VIEW + position;
-        } else if (headerViewsCountCount <= position && position < headerViewsCountCount + realCount) {
+        } else if (position >= headerViewsCountCount && position < headerViewsCountCount + realCount) {
 
             int realItemViewType = mRealAdapter.getItemViewType(position - headerViewsCountCount);
             if (realItemViewType >= TYPE_NORMAL_VIEW) {
-                //TODO 我估计这个世纪客户端不会出现列表类型有这么多的情况吧？
                 throw new IllegalArgumentException("what is an strange list type!");
             }
             return realItemViewType + TYPE_NORMAL_VIEW;
         } else {
             return TYPE_FOOTER_VIEW + position - headerViewsCountCount - realCount;
         }
+    }
+
+    @Override
+    public final long getItemId(int position) {
+
+        long itemId;
+        int realCount = mRealAdapter.getItemCount();
+
+        int headerViewsCountCount = getHeaderViewsCount();
+        if (position < headerViewsCountCount) {
+            itemId = mHeaderViews.get(position).hashCode();
+        } else if (position >= headerViewsCountCount && position < headerViewsCountCount + realCount) {
+            itemId = mRealAdapter.getItemId(position);
+        } else {
+            itemId = mFooterViews.get(position - headerViewsCountCount - realCount).hashCode();
+        }
+        return itemId;
     }
 
     protected boolean isHeaderPosition(int position) {
@@ -171,7 +176,6 @@ class HeaderViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             mHeaderViews.add(header);
 
             notifyHeaderInserted();
-            //this.notifyDataSetChanged();
         }
     }
 
@@ -181,7 +185,6 @@ class HeaderViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             mFooterViews.add(footer);
 
             notifyFooterInserted();
-            //this.notifyDataSetChanged();
         }
     }
 
@@ -203,41 +206,36 @@ class HeaderViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
     protected void notifyHeaderChanged() {
-        //this.notifyDataSetChanged();
 
         this.notifyItemRangeInserted(0, getHeaderViewsCount());
     }
 
     protected void notifyFooterChanged() {
-//        this.notifyDataSetChanged();
 
         int start = getHeaderViewsCount() + mRealAdapter.getItemCount();
-        this.notifyItemRangeInserted(start, getItemCount());
+        this.notifyItemRangeInserted(start, getFooterViewsCount());
     }
 
     private void notifyHeaderInserted() {
-        //this.notifyDataSetChanged();
 
         this.notifyItemRangeInserted(0, getHeaderViewsCount());
     }
 
     private void notifyFooterInserted() {
-//        this.notifyDataSetChanged();
 
         int start = getHeaderViewsCount() + mRealAdapter.getItemCount();
-        this.notifyItemRangeInserted(start, getItemCount());
+        this.notifyItemRangeInserted(start, getFooterViewsCount());
     }
 
     private void notifyHeaderRemoved() {
-        //this.notifyDataSetChanged();
+
         this.notifyItemRangeRemoved(0, getHeaderViewsCount());
     }
 
     private void notifyFooterRemoved() {
-        //this.notifyDataSetChanged();
 
         int start = getHeaderViewsCount() + mRealAdapter.getItemCount();
-        this.notifyItemRangeRemoved(start, getItemCount());
+        this.notifyItemRangeRemoved(start, getFooterViewsCount());
     }
 
 
@@ -246,5 +244,4 @@ class HeaderViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             super(itemView);
         }
     }
-
 }

@@ -16,9 +16,16 @@ import java.util.List;
 
 public class UniversalRecyclerView extends RecyclerView {
 
+
+    private View mEmptyView;
+
     private List<View> mHeaderViews, mFooterViews;
 
     private boolean mIsHeaderFullScreen = true, mIsFooterScreen = true;
+
+    private Adapter mRealAdapter;
+
+    private HeaderViewRecyclerAdapter mDecoratingAdapter;
 
     public UniversalRecyclerView(Context context) {
         this(context, null);
@@ -33,6 +40,22 @@ public class UniversalRecyclerView extends RecyclerView {
 
         if (getRecycledViewPool() != null) {
             getRecycledViewPool().setMaxRecycledViews(0, 10);
+        }
+    }
+
+    public void setEmptyView(View emptyView) {
+        this.mEmptyView = emptyView;
+
+        checkIfEmpty();
+    }
+
+    private final void checkIfEmpty() {
+
+        if (mEmptyView != null && mDecoratingAdapter != null) {
+
+            final boolean emptyViewVisible = mRealAdapter.getItemCount() == 0;
+            mEmptyView.setVisibility(emptyViewVisible ? VISIBLE : GONE);
+            setVisibility(emptyViewVisible ? GONE : VISIBLE);
         }
     }
 
@@ -59,8 +82,12 @@ public class UniversalRecyclerView extends RecyclerView {
 
     public void addHeaderView(View headerView) {
 
-        if (getAdapter() instanceof HeaderViewRecyclerAdapter) {
-            ((HeaderViewRecyclerAdapter) getAdapter()).addHeaderView(headerView);
+        if (headerView == null) {
+            return;
+        }
+
+        if (mDecoratingAdapter != null) {
+            mDecoratingAdapter.addHeaderView(headerView);
         } else {
 
             initHeaderListIfNecessary();
@@ -71,8 +98,12 @@ public class UniversalRecyclerView extends RecyclerView {
 
     public void addFooterView(View footerView) {
 
-        if (getAdapter() instanceof HeaderViewRecyclerAdapter) {
-            ((HeaderViewRecyclerAdapter) getAdapter()).addFooterView(footerView);
+        if (footerView == null) {
+            return;
+        }
+
+        if (mDecoratingAdapter != null) {
+            mDecoratingAdapter.addFooterView(footerView);
         } else {
             initFooterListIfNecessary();
             mFooterViews.add(footerView);
@@ -82,26 +113,65 @@ public class UniversalRecyclerView extends RecyclerView {
     @Override
     public void setAdapter(Adapter adapter) {
 
-        Adapter decoratingAdapter = null;
+        if (mRealAdapter != null) {
+            mRealAdapter.unregisterAdapterDataObserver(mObserver);
+        }
 
-        //remove old  inited observer.
-        Adapter oldAdapter = getAdapter();
-        if (oldAdapter instanceof HeaderViewRecyclerAdapter) {
-            ((HeaderViewRecyclerAdapter) oldAdapter).unRegisterInnerObservable();
+        this.mRealAdapter = adapter;
+
+        mRealAdapter.registerAdapterDataObserver(mObserver);
+
+        if (mDecoratingAdapter != null) {
+            mDecoratingAdapter.unRegisterInnerObservable();
         }
 
         //adaptive user adapter into header-footer-adapter if needed.
         if (adapter instanceof HeaderViewRecyclerAdapter) {
-            decoratingAdapter = adapter;
+            mDecoratingAdapter = (HeaderViewRecyclerAdapter) adapter;
         } else if (adapter != null) {
 
             initHeaderListIfNecessary();
             initFooterListIfNecessary();
-            decoratingAdapter = new HeaderViewRecyclerAdapter(mHeaderViews, mFooterViews, adapter);
+            mDecoratingAdapter = new HeaderViewRecyclerAdapter(mHeaderViews, mFooterViews, adapter);
         }
 
-        super.setAdapter(decoratingAdapter);
+        super.setAdapter(mDecoratingAdapter);
+        checkIfEmpty();
     }
+
+    private AdapterDataObserver mObserver = new AdapterDataObserver() {
+        @Override
+        public void onChanged() {
+            super.onChanged();
+
+            checkIfEmpty();
+        }
+
+        @Override
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            super.onItemRangeInserted(positionStart, itemCount);
+            checkIfEmpty();
+        }
+
+        @Override
+        public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+            super.onItemRangeMoved(fromPosition, toPosition, itemCount);
+            checkIfEmpty();
+        }
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount) {
+            super.onItemRangeChanged(positionStart, itemCount);
+            checkIfEmpty();
+        }
+
+        @Override
+        public void onItemRangeRemoved(int positionStart, int itemCount) {
+            super.onItemRangeRemoved(positionStart, itemCount);
+            checkIfEmpty();
+
+        }
+    };
 
     @Override
     public void setLayoutManager(LayoutManager layout) {
@@ -181,21 +251,37 @@ public class UniversalRecyclerView extends RecyclerView {
         return false;
     }
 
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        /*if (getAdapter() instanceof HeaderViewRecyclerAdapter) {
-            ((HeaderViewRecyclerAdapter) getAdapter()).registerAdapterDataObserver();
-        }*/
+    /**
+     * 这种方式实现比较坑的事情就是header、footer会一直不会被回收，所以在destroy的时候需要单独访问clear
+     */
+    public void clear() {
+
+        if (getAdapter() == null) {
+            return;
+        }
+
+        if (mHeaderViews != null) {
+            mHeaderViews.clear();
+            mDecoratingAdapter.notifyHeaderChanged();
+        }
+
+        if (mFooterViews != null) {
+            mFooterViews.clear();
+            mDecoratingAdapter.notifyFooterChanged();
+        }
+
+        if (mRealAdapter != null) {
+            try {
+                mRealAdapter.unregisterAdapterDataObserver(mObserver);
+            } catch (Exception exception) {
+                //exception.printStackTrace();
+            }
+        }
+
+        mRealAdapter = null;
+
+        mDecoratingAdapter = null;
     }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        //TODO 这样的设置是否会有问题，将来从后台返回列表无法刷新尝试对这块进行调整.
-        if (getAdapter() instanceof HeaderViewRecyclerAdapter) {
-            ((HeaderViewRecyclerAdapter) getAdapter()).unRegisterInnerObservable();
-        }
-    }
 
 }
