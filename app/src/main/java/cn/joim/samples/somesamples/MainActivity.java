@@ -1,8 +1,8 @@
 package cn.joim.samples.somesamples;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -11,24 +11,25 @@ import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Gallery;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
-import cn.joim.samples.headerandfooterrecyclerview.BaseViewHolder;
-import cn.joim.samples.headerandfooterrecyclerview.UniversalRecyclerView;
+import cn.joim.headerandfooterrecyclerview.BaseViewHolder;
+import cn.joim.headerandfooterrecyclerview.UniversalRecyclerView;
+import cn.joim.samples.somesamples.image_loader.ImageLoderModuleActivity;
 import cn.joim.samples.somesamples.model.ListItem;
-import cn.joim.samples.somesamples.widget.LoopViewPager;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+
+    private Button mBtnResearchImageLoader;
 
     UniversalRecyclerView mRecyclerView, mHeaderRecyclerView;
 
@@ -42,6 +43,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        initRecyclerResearch();
+
+        initNewResearch();
+    }
+
+    private void initRecyclerResearch() {
 
         mRecyclerView = findViewById(R.id.recycler_view);
 
@@ -78,6 +86,29 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.addHeaderView(mHeaderRecyclerView);
 
         mRecyclerView.addFooterView(footerView);
+
+    }
+
+    private void initNewResearch() {
+
+        mBtnResearchImageLoader = findViewById(R.id.btn_research_image_loader);
+        mBtnResearchImageLoader.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.btn_research_image_loader: {
+
+                Intent intent = new Intent(this, ImageLoderModuleActivity.class);
+                startActivity(intent);
+                break;
+            }
+            default:
+                break;
+        }
     }
 
     private void writeListItems(@NonNull List<ListItem> list) {

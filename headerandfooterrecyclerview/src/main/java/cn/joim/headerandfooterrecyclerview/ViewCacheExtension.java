@@ -1,4 +1,4 @@
-package cn.joim.samples.headerandfooterrecyclerview;
+package cn.joim.headerandfooterrecyclerview;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;

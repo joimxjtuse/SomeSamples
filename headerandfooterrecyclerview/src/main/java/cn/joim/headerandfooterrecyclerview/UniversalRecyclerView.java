@@ -1,4 +1,4 @@
-package cn.joim.samples.headerandfooterrecyclerview;
+package cn.joim.headerandfooterrecyclerview;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
