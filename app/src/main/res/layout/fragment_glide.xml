@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data class = "cn.joim.samples.somesamples.glide.GlideModuleBinding">
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="cn.joim.samples.somesamples.glide.GlideModuleViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00FF00"
+            android:text="@={viewmodel.title}"
+            android:gravity="center"
+            android:padding="15dp" />
+
+        <cn.joim.headerandfooterrecyclerview.UniversalRecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</layout>
+

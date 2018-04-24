@@ -23,13 +23,14 @@ import java.util.List;
 
 import cn.joim.headerandfooterrecyclerview.BaseViewHolder;
 import cn.joim.headerandfooterrecyclerview.UniversalRecyclerView;
+import cn.joim.samples.somesamples.glide.GlideModuleActivity;
 import cn.joim.samples.somesamples.image_loader.ImageLoderModuleActivity;
 import cn.joim.samples.somesamples.model.ListItem;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
-    private Button mBtnResearchImageLoader;
+    private Button mBtnResearchImageLoader, mBtnResearchGlide;
 
     UniversalRecyclerView mRecyclerView, mHeaderRecyclerView;
 
@@ -94,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBtnResearchImageLoader = findViewById(R.id.btn_research_image_loader);
         mBtnResearchImageLoader.setOnClickListener(this);
 
+        mBtnResearchGlide = findViewById(R.id.btn_research_glide);
+        mBtnResearchGlide.setOnClickListener(this);
     }
 
     @Override
@@ -103,6 +106,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_research_image_loader: {
 
                 Intent intent = new Intent(this, ImageLoderModuleActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.btn_research_glide: {
+                Intent intent = new Intent(this, GlideModuleActivity.class);
                 startActivity(intent);
                 break;
             }

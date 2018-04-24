@@ -33,6 +33,15 @@
                 android:text="学习一下ImageLoader"
                 android:textSize="15sp" />
 
+            <Button
+                android:id="@+id/btn_research_glide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="学习一下Glide"
+                android:textSize="15sp" />
+
         </LinearLayout>
 
 

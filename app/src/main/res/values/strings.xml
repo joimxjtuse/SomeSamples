@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">SomeSamples</string>
     <string name="title_activity_image_loder_module">ImageLoderModuleActivity</string>
+    <string name="title_activity_glide_module">GlideModuleActivity</string>
 </resources>
