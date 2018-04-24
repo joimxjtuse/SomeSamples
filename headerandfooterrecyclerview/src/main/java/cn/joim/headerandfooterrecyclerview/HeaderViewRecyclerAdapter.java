@@ -70,6 +70,8 @@ class HeaderViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         this.mRealAdapter = realAdapter;
 
+        setHasStableIds(mRealAdapter.hasStableIds());
+
         _init();
     }
 
@@ -144,7 +146,7 @@ class HeaderViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (position < headerViewsCountCount) {
             itemId = mHeaderViews.get(position).hashCode();
         } else if (position >= headerViewsCountCount && position < headerViewsCountCount + realCount) {
-            itemId = mRealAdapter.getItemId(position);
+            itemId = mRealAdapter.getItemId(position - headerViewsCountCount);
         } else {
             itemId = mFooterViews.get(position - headerViewsCountCount - realCount).hashCode();
         }
