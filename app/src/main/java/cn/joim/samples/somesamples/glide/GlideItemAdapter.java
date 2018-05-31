@@ -74,8 +74,8 @@ public class GlideItemAdapter extends RecyclerView.Adapter<GlideItemAdapter.Cont
     public void onViewRecycled(ContentHolder holder) {
 
         super.onViewRecycled(holder);
-        Glide.clear(holder.mImgThumbnail);
-        // Glide.with(holder.itemView).clear(holder.mImgThumbnail);
+//        Glide.clear(holder.mImgThumbnail);
+         Glide.with(holder.itemView).clear(holder.mImgThumbnail);
     }
 
     @Override

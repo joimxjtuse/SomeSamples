@@ -34,12 +34,26 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:26.1.0'
     implementation project(':imageloader')
 
-    compile 'com.github.bumptech.glide:glide:3.8.0'
-
+    implementation 'com.github.bumptech.glide:glide:4.3.1'
     /**
      * 看起来4.4后的glide版本与v7包（27之前）引用了相同的包导致编译，需要exclude
      * 冲突的部分。
-     * */
+     *
+     *
+     * Here is my comment for the workaround solution:
+     *
+     * Just use appcompat-v7:27.0.2 & glide:4.4.0
+     * use databinding & appcompat-v7:26.1.0 & glide:4.3.1
+     * use databinding & appcompat-v7:27.0.2 & glide:4.4.0, we need set databinding's version to 1.3.3 like below, and it'll work well:
+     * android {...
+     * dataBinding {enabled = true}}dependencies {...
+     * implementation 'com.android.support:appcompat-v7:27.0.2'
+     * implementation 'com.github.bumptech.glide:glide:4.4.0'
+     * annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
+     * implementation 'com.android.databinding:adapters:1.3.3'
+     * implementation 'com.android.databinding:library:1.3.3'
+     * ...}*
+     * * ***/
     //4.7.1
 //    implementation 'com.github.bumptech.glide:glide:4.4.0' {
 //        exclude group: "com.android.support"
