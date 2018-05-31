@@ -23,8 +23,8 @@ public class Utils {
     }*/
 
     @SuppressWarnings("unchecked")
-    @BindingAdapter({"app:items"})
-    public static void bindData(RecyclerView recyclerView, List<ContentBean> lists) {
+    @BindingAdapter({"items"})
+    public static void setItems(RecyclerView recyclerView, List<ContentBean> lists) {
 
         GlideItemAdapter adapter = new GlideItemAdapter(recyclerView.getContext());
         adapter.bindItems(lists);

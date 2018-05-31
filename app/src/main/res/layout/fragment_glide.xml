@@ -4,9 +4,6 @@
 
     <data class="cn.joim.samples.somesamples.glide.GlideModuleBinding">
 
-        <import type="android.view.View" />
-
-
         <variable
             name="view"
             type="cn.joim.samples.somesamples.glide.GlideModuleFragment" />

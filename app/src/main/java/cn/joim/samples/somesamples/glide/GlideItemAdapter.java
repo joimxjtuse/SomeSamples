@@ -21,7 +21,7 @@ import cn.joim.samples.somesamples.R;
 
 /**
  * Created by joim on 2018/4/25.
- *
+ * <p>
  * TODO 搞了半天adapter的binding，但是一直都报错，故而暂时恢复了旧的代码.
  */
 
@@ -63,7 +63,6 @@ public class GlideItemAdapter extends RecyclerView.Adapter<GlideItemAdapter.Cont
 
         Glide.with(holder.itemView.getContext()).load(contentBean.getImageRes()).into(holder.mImgThumbnail);
         holder.mTxtTitle.setText(contentBean.getTitle());
-        holder.mTxtDescription.setText(contentBean.getTitle());
     }
 
     @Override
@@ -91,7 +90,7 @@ public class GlideItemAdapter extends RecyclerView.Adapter<GlideItemAdapter.Cont
 //        }
 
         ImageView mImgThumbnail;
-        TextView mTxtTitle, mTxtDescription;
+        TextView mTxtTitle;
 
 
         public ContentHolder(@NonNull View itemView) {
@@ -104,7 +103,6 @@ public class GlideItemAdapter extends RecyclerView.Adapter<GlideItemAdapter.Cont
             mImgThumbnail = itemView.findViewById(R.id.image_view);
 
             mTxtTitle = itemView.findViewById(R.id.text_title);
-            mTxtDescription = itemView.findViewById(R.id.text_description);
         }
     }
 }
