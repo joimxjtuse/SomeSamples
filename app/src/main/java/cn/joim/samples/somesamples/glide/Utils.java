@@ -1,10 +1,11 @@
 package cn.joim.samples.somesamples.glide;
 
 import android.databinding.BindingAdapter;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
+//import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class Utils {
 
         GlideItemAdapter adapter = new GlideItemAdapter(recyclerView.getContext());
         adapter.bindItems(lists);
-
+        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setAdapter(adapter);
     }
 
