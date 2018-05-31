@@ -21,6 +21,8 @@ import cn.joim.samples.somesamples.R;
 
 /**
  * Created by joim on 2018/4/25.
+ *
+ * TODO 搞了半天adapter的binding，但是一直都报错，故而暂时恢复了旧的代码.
  */
 
 public class GlideItemAdapter extends RecyclerView.Adapter<GlideItemAdapter.ContentHolder> {
