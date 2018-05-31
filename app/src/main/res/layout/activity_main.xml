@@ -17,12 +17,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
+        <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="5dp">
+            android:padding="5dp"
+            app:dividerPadding="1dp"
+            app:showDividers="middle">
 
             <Button
                 android:id="@+id/btn_research_image_loader"
@@ -42,7 +43,7 @@
                 android:text="学习一下Glide"
                 android:textSize="15sp" />
 
-        </LinearLayout>
+        </android.support.v7.widget.LinearLayoutCompat>
 
 
     </ScrollView>

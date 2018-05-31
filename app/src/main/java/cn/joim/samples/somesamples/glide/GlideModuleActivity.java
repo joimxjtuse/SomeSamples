@@ -8,6 +8,14 @@ import cn.joim.samples.somesamples.R;
 import cn.joim.samples.somesamples.glide.todomvvm_template.ViewModelHolder;
 import cn.joim.samples.somesamples.utils.ActivityUtils;
 
+/**
+ *
+ * Glide在4.0以后的版本，将
+ *
+ *
+ *
+ *
+ * */
 public class GlideModuleActivity extends AppCompatActivity {
 
     public static final String GLIDE_MODULE_VIEWMODEL_TAG = "GLIDE_MODULE_VIEWMODEL_TAG";

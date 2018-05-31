@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-//import com.bumptech.glide.Glide;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -61,13 +61,20 @@ public class GlideItemAdapter extends RecyclerView.Adapter<GlideItemAdapter.Cont
 //        binding.executePendingBindings();
         ContentBean contentBean = getItem(position);
 
-       // Glide.with(holder.itemView.getContext()).load(contentBean.getImageRes()).into(holder.mImgThumbnail);
+        Glide.with(holder.itemView.getContext()).load(contentBean.getImageRes()).into(holder.mImgThumbnail);
         holder.mTxtTitle.setText(contentBean.getTitle());
     }
 
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    @Override
+    public void onViewRecycled(ContentHolder holder) {
+
+        super.onViewRecycled(holder);
+        Glide.clear(holder.mImgThumbnail);
     }
 
     @Override
