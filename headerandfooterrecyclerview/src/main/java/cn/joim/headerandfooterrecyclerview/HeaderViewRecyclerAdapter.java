@@ -144,11 +144,11 @@ class HeaderViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         int headerViewsCountCount = getHeaderViewsCount();
         if (position < headerViewsCountCount) {
-            itemId = mHeaderViews.get(position).hashCode();
+            itemId = RecyclerView.NO_ID;
         } else if (position >= headerViewsCountCount && position < headerViewsCountCount + realCount) {
             itemId = mRealAdapter.getItemId(position - headerViewsCountCount);
         } else {
-            itemId = mFooterViews.get(position - headerViewsCountCount - realCount).hashCode();
+            itemId =  RecyclerView.NO_ID;
         }
         return itemId;
     }
