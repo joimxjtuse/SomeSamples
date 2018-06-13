@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void initWork() {
 
-        //WorkManager.getInstance().enqueue(OneTimeWorkRequest.from(MyOneTimeWorker.class));
+        WorkManager.getInstance().beginWith(OneTimeWorkRequest.from(MyOneTimeWorker.class))
+                .then(OneTimeWorkRequest.from(MyOneTimeWorker.class)).enqueue();
 
         PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(MyPeriodicWork.class,
                 24, TimeUnit.HOURS).build();
