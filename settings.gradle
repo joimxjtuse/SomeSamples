@@ -1,1 +1,1 @@
-include ':app', ':headerandfooterrecyclerview', ':imageloader'
+include ':app', ':headerandfooterrecyclerview', ':imageloader', ':workmanager'
