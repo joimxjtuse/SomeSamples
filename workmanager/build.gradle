@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion rootProject.ext.compileSdkVersion
 
 
 
     defaultConfig {
         applicationId "cn.joim.samples.workmanager"
-        minSdkVersion 15
-        targetSdkVersion 28
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -26,13 +26,12 @@ android {
 }
 
 dependencies {
-    def work_version = "1.0.0-alpha02"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation "com.android.support:appcompat-v7:$supportLibVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.1.1'
-    implementation 'com.android.support:design:26.1.0'
-    implementation "android.arch.work:work-runtime:$work_version"
+    implementation "com.android.support:design:$supportLibVersion"
+    implementation "android.arch.work:work-runtime:$workVersion"
 
 
     testImplementation 'junit:junit:4.12'
